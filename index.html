@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador Excellington</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 h-full flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Modal de Alerta / Mensagem -->
+    <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-center">
+            <div id="modal-icon" class="mx-auto mb-4 flex items-center justify-center w-12 h-12 rounded-full bg-indigo-500/10 text-indigo-400">
+                <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+            <h3 id="modal-title" class="text-lg font-semibold text-white mb-2">Aviso</h3>
+            <p id="modal-message" class="text-slate-300 text-sm mb-6">Mensagem do sistema.</p>
+            <button id="modal-btn" onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 px-4 rounded-xl transition-colors">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold text-white">Configurações</h3>
+                <button onclick="toggleSettingsModal(false)" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-4">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Alterar Senha</p>
+                <input type="password" id="old-pin" placeholder="Senha Atual" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white">
+                <input type="password" id="new-pin" placeholder="Nova Senha (6 dígitos)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white">
+                <button onclick="changePassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-colors">Salvar Nova Senha</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela de Autenticação -->
+    <div id="auth-screen" class="fixed inset-0 z-40 bg-slate-950 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800/80 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600/10 text-indigo-400 mb-4 border border-indigo-500/20">
+                    <i data-lucide="lock" class="w-8 h-8"></i>
+                </div>
+                <h1 id="auth-title" class="text-2xl font-bold text-white">Excellington</h1>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <input type="password" id="pin-input" maxlength="6" inputmode="numeric" placeholder="••••••"
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3.5 text-center text-2xl tracking-widest text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                </div>
+                <button onclick="handleAuthAction()" id="auth-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/25">
+                    <span id="auth-btn-text">Entrar</span>
+                </button>
+                <button id="forgot-password-btn" onclick="resetApp()" class="w-full text-xs text-rose-500 hover:text-rose-400 mt-2 hidden">
+                    Esqueceu a senha? Resetar acesso.
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aplicação Principal -->
+    <div id="app-container" class="flex-1 flex flex-col hidden max-w-4xl w-full mx-auto p-4">
+        <header class="flex items-center justify-between pb-6 border-b border-slate-800/80 mb-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white">Excellington</h1>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleSettingsModal(true)" class="p-2 text-slate-400 hover:text-white"><i data-lucide="settings" class="w-5 h-5"></i></button>
+                <button onclick="lockApp()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="lock" class="w-5 h-5"></i></button>
+            </div>
+        </header>
+
+        <div class="flex rounded-xl bg-slate-900 p-1.5 border border-slate-800/80 mb-6">
+            <button onclick="switchTab('encrypt')" id="tab-encrypt" class="flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white">ENCRIPTAR</button>
+            <button onclick="switchTab('decrypt')" id="tab-decrypt" class="flex-1 py-2 rounded-lg text-sm font-medium text-slate-400">DESENCRIPTAR</button>
+        </div>
+
+        <section id="panel-encrypt" class="space-y-6 flex-1 flex flex-col">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+                <div class="space-y-6 flex flex-col">
+                    <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1 flex flex-col">
+                        <textarea id="enc-message" rows="4" placeholder="Escreva sua mensagem secreta aqui..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-white placeholder-slate-600 focus:outline-none flex-1"></textarea>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 space-y-3">
+                        <input type="text" id="q1" placeholder="Pergunta 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="a1" placeholder="Resposta 1 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="q2" placeholder="Pergunta 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="a2" placeholder="Resposta 2 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="q3" placeholder="Pergunta 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="a3" placeholder="Resposta 3 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-6">
+                    <button onclick="encryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl">Processar Encriptação</button>
+                    <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1 flex flex-col">
+                        <textarea id="enc-output" readonly placeholder="Resultado codificado..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-indigo-200 flex-1"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-decrypt" class="space-y-6 flex-1 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-6">
+                    <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5">
+                        <textarea id="dec-input" rows="5" placeholder="Cole aqui o pacote recebido..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-white"></textarea>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 space-y-4">
+                        <input type="text" id="dec-a1" placeholder="Resposta Chave 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+                        <input type="text" id="dec-a2" placeholder="Resposta Chave 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+                        <input type="text" id="dec-a3" placeholder="Resposta Chave 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+                        <button onclick="decryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl">Desencriptar</button>
+                    </div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1">
+                    <textarea id="dec-output-text" readonly class="w-full h-full bg-transparent text-emerald-400 text-sm font-mono"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            checkInitialAuth();
+        });
+
+        function checkInitialAuth() {
+            const savedPin = localStorage.getItem("exc_pin");
+            const forgotBtn = document.getElementById("forgot-password-btn");
+            if (!savedPin) {
+                document.getElementById("auth-title").textContent = "Configurar Acesso";
+                document.getElementById("auth-btn-text").textContent = "Criar Senha";
+                forgotBtn.classList.add("hidden");
+            } else {
+                document.getElementById("auth-title").textContent = "Desbloquear";
+                document.getElementById("auth-btn-text").textContent = "Entrar";
+                forgotBtn.classList.remove("hidden");
+            }
+        }
+
+        function handleAuthAction() {
+            const pinInput = document.getElementById("pin-input").value;
+            if (pinInput.length !== 6 || isNaN(pinInput)) {
+                showModal("Atenção", "A senha deve ter 6 dígitos.");
+                return;
+            }
+            const savedPin = localStorage.getItem("exc_pin");
+            if (!savedPin) {
+                localStorage.setItem("exc_pin", pinInput);
+                unlockApp();
+            } else {
+                if (pinInput === savedPin) unlockApp();
+                else showModal("Erro", "Senha incorreta.");
+            }
+        }
+
+        function unlockApp() {
+            document.getElementById("auth-screen").classList.add("hidden");
+            document.getElementById("app-container").classList.remove("hidden");
+            document.getElementById("pin-input").value = "";
+        }
+
+        function lockApp() {
+            document.getElementById("app-container").classList.add("hidden");
+            document.getElementById("auth-screen").classList.remove("hidden");
+            checkInitialAuth();
+        }
+
+        function resetApp() {
+            if (confirm("Tem certeza que deseja resetar sua senha? Isso limpará a trava de segurança.")) {
+                localStorage.removeItem("exc_pin");
+                location.reload();
+            }
+        }
+
+        function toggleSettingsModal(show) {
+            document.getElementById("settings-modal").classList.toggle("hidden", !show);
+        }
+
+        function changePassword() {
+            const oldPin = document.getElementById("old-pin").value;
+            const newPin = document.getElementById("new-pin").value;
+            const savedPin = localStorage.getItem("exc_pin");
+            if (oldPin !== savedPin) {
+                showModal("Erro", "Senha atual incorreta.");
+                return;
+            }
+            if (newPin.length !== 6 || isNaN(newPin)) {
+                showModal("Erro", "Nova senha deve ter 6 dígitos.");
+                return;
+            }
+            localStorage.setItem("exc_pin", newPin);
+            showModal("Sucesso", "Senha alterada!");
+            toggleSettingsModal(false);
+        }
+
+        function switchTab(tab) {
+            document.getElementById("panel-encrypt").classList.toggle("hidden", tab !== 'encrypt');
+            document.getElementById("panel-decrypt").classList.toggle("hidden", tab !== 'decrypt');
+            document.getElementById("tab-encrypt").className = tab === 'encrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400";
+            document.getElementById("tab-decrypt").className = tab === 'decrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400";
+        }
+
+        function encryptMessage() {
+            const msg = document.getElementById("enc-message").value;
+            const a1 = document.getElementById("a1").value;
+            const a2 = document.getElementById("a2").value;
+            const a3 = document.getElementById("a3").value;
+            if(!msg || !a1 || !a2 || !a3) return showModal("Erro", "Preencha todos os campos.");
+            const key = `${a1.toLowerCase()}|${a2.toLowerCase()}|${a3.toLowerCase()}`;
+            const encrypted = btoa(unescape(encodeURIComponent(msg)));
+            document.getElementById("enc-output").value = encrypted + "\n\nQ1: " + document.getElementById("q1").value + "\nQ2: " + document.getElementById("q2").value + "\nQ3: " + document.getElementById("q3").value + "\nKey: " + key;
+            showModal("Sucesso", "Mensagem encriptada.");
+        }
+
+        function decryptMessage() {
+            const raw = document.getElementById("dec-input").value;
+            const a1 = document.getElementById("dec-a1").value;
+            const a2 = document.getElementById("dec-a2").value;
+            const a3 = document.getElementById("dec-a3").value;
+            try {
+                const parts = raw.split("\n\n");
+                const msg = decodeURIComponent(escape(atob(parts[0])));
+                document.getElementById("dec-output-text").value = msg;
+            } catch(e) { showModal("Erro", "Erro ao descriptografar."); }
+        }
+
+        function showModal(title, msg) {
+            document.getElementById("modal-title").textContent = title;
+            document.getElementById("modal-message").textContent = msg;
+            document.getElementById("custom-modal").classList.remove("hidden");
+        }
+
+        function closeModal() { document.getElementById("custom-modal").classList.add("hidden"); }
+    </script>
+</body>
+</html>
+

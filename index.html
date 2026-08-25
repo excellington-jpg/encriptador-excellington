@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" class="h-full">
 <head>
     <meta charset="UTF-8">
@@ -38,8 +38,8 @@
             </div>
             <div class="space-y-4">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Alterar Senha</p>
-                <input type="password" id="old-pin" placeholder="Senha Atual" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white">
-                <input type="password" id="new-pin" placeholder="Nova Senha (6 dígitos)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white">
+                <input type="password" id="old-pin" placeholder="Senha Atual" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="password" id="new-pin" placeholder="Nova Senha (6 dígitos)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500">
                 <button onclick="changePassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-colors">Salvar Nova Senha</button>
             </div>
         </div>
@@ -78,39 +78,45 @@
                     <i data-lucide="shield-check" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white">Encriptador Excellington</h1>
+                    <h1 class="text-lg font-bold text-white">Excellington</h1>
                 </div>
             </div>
             <div class="flex items-center space-x-2">
-                <button onclick="toggleSettingsModal(true)" class="p-2 text-slate-400 hover:text-white"><i data-lucide="settings" class="w-5 h-5"></i></button>
-                <button onclick="lockApp()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="lock" class="w-5 h-5"></i></button>
+                <button onclick="toggleSettingsModal(true)" class="p-2 text-slate-400 hover:text-white" title="Configurações"><i data-lucide="settings" class="w-5 h-5"></i></button>
+                <button onclick="lockApp()" class="p-2 text-slate-400 hover:text-white" title="Bloquear"><i data-lucide="lock" class="w-5 h-5"></i></button>
             </div>
         </header>
 
         <div class="flex rounded-xl bg-slate-900 p-1.5 border border-slate-800/80 mb-6">
-            <button onclick="switchTab('encrypt')" id="tab-encrypt" class="flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white">ENCRIPTAR</button>
-            <button onclick="switchTab('decrypt')" id="tab-decrypt" class="flex-1 py-2 rounded-lg text-sm font-medium text-slate-400">DESENCRIPTAR</button>
+            <button onclick="switchTab('encrypt')" id="tab-encrypt" class="flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition-all">ENCRIPTAR</button>
+            <button onclick="switchTab('decrypt')" id="tab-decrypt" class="flex-1 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all">DESENCRIPTAR</button>
         </div>
 
         <section id="panel-encrypt" class="space-y-6 flex-1 flex flex-col">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
                 <div class="space-y-6 flex flex-col">
                     <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1 flex flex-col">
-                        <textarea id="enc-message" rows="4" placeholder="Escreva sua mensagem secreta aqui..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-white placeholder-slate-600 focus:outline-none flex-1"></textarea>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Mensagem Secreta</label>
+                        <textarea id="enc-message" rows="4" placeholder="Escreva sua mensagem confidencial aqui..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none flex-1"></textarea>
                     </div>
                     <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 space-y-3">
-                        <input type="text" id="q1" placeholder="Pergunta 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="a1" placeholder="Resposta 1 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="q2" placeholder="Pergunta 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="a2" placeholder="Resposta 2 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="q3" placeholder="Pergunta 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="a3" placeholder="Resposta 3 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Perguntas e Respostas Chaves</label>
+                        <input type="text" id="q1" placeholder="Pergunta 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="a1" placeholder="Resposta 1 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="q2" placeholder="Pergunta 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="a2" placeholder="Resposta 2 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="q3" placeholder="Pergunta 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="a3" placeholder="Resposta 3 (minúscula/sem acento)" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
                     </div>
                 </div>
                 <div class="flex flex-col space-y-6">
-                    <button onclick="encryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl">Processar Encriptação</button>
+                    <button onclick="encryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20">Processar Encriptação</button>
                     <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1 flex flex-col">
-                        <textarea id="enc-output" readonly placeholder="Resultado codificado..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-indigo-200 flex-1"></textarea>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Resultado Codificado</label>
+                            <button onclick="copyResult()" class="text-xs text-indigo-400 hover:text-indigo-300 font-medium bg-indigo-500/10 py-1 px-2.5 rounded-lg border border-indigo-500/20">Copiar Pacote</button>
+                        </div>
+                        <textarea id="enc-output" readonly placeholder="O pacote gerado aparecerá aqui..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-indigo-200 placeholder-slate-600 focus:outline-none resize-none flex-1"></textarea>
                     </div>
                 </div>
             </div>
@@ -120,17 +126,22 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="space-y-6">
                     <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5">
-                        <textarea id="dec-input" rows="5" placeholder="Cole aqui o pacote recebido..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-white"></textarea>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Mensagem Codificada Recebida</label>
+                        <textarea id="dec-input" rows="5" placeholder="Cole aqui o pacote completo recebido..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
                     </div>
                     <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 space-y-4">
-                        <input type="text" id="dec-a1" placeholder="Resposta Chave 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
-                        <input type="text" id="dec-a2" placeholder="Resposta Chave 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
-                        <input type="text" id="dec-a3" placeholder="Resposta Chave 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
-                        <button onclick="decryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl">Desencriptar</button>
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Insira as Respostas Chaves</label>
+                        <input type="text" id="dec-a1" placeholder="Resposta Chave 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="dec-a2" placeholder="Resposta Chave 2" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="dec-a3" placeholder="Resposta Chave 3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500">
+                        <button onclick="decryptMessage()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-indigo-600/20">Desencriptar Mensagem</button>
                     </div>
                 </div>
-                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1">
-                    <textarea id="dec-output-text" readonly class="w-full h-full bg-transparent text-emerald-400 text-sm font-mono"></textarea>
+                <div class="bg-slate-900 border border-slate-800/80 rounded-2xl p-5 flex-1 flex flex-col">
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Mensagem Desvendada</label>
+                    <div class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 flex-1 flex flex-col justify-center items-center text-center">
+                        <textarea id="dec-output-text" readonly placeholder="A mensagem revelada aparecerá aqui..." class="w-full h-full bg-transparent text-emerald-400 text-sm focus:outline-none resize-none font-mono"></textarea>
+                    </div>
                 </div>
             </div>
         </section>
@@ -159,7 +170,7 @@
         function handleAuthAction() {
             const pinInput = document.getElementById("pin-input").value;
             if (pinInput.length !== 6 || isNaN(pinInput)) {
-                showModal("Atenção", "A senha deve ter 6 dígitos.");
+                showModal("Atenção", "A senha deve ter 6 dígitos numéricos.");
                 return;
             }
             const savedPin = localStorage.getItem("exc_pin");
@@ -208,39 +219,149 @@
                 return;
             }
             localStorage.setItem("exc_pin", newPin);
-            showModal("Sucesso", "Senha alterada!");
+            showModal("Sucesso", "Senha alterada com sucesso!");
             toggleSettingsModal(false);
+            document.getElementById("old-pin").value = "";
+            document.getElementById("new-pin").value = "";
         }
 
         function switchTab(tab) {
             document.getElementById("panel-encrypt").classList.toggle("hidden", tab !== 'encrypt');
             document.getElementById("panel-decrypt").classList.toggle("hidden", tab !== 'decrypt');
-            document.getElementById("tab-encrypt").className = tab === 'encrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400";
-            document.getElementById("tab-decrypt").className = tab === 'decrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400";
+            document.getElementById("tab-encrypt").className = tab === 'encrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition-all" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all";
+            document.getElementById("tab-decrypt").className = tab === 'decrypt' ? "flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition-all" : "flex-1 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all";
+        }
+
+        function normalizeKeyText(text) {
+            return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        }
+
+        function xorCipher(text, key) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                const charCode = text.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                result += String.fromCharCode(charCode);
+            }
+            return btoa(unescape(encodeURIComponent(result)));
+        }
+
+        function decryptXor(encoded, key) {
+            try {
+                const decodedText = decodeURIComponent(escape(atob(encoded)));
+                let result = '';
+                for (let i = 0; i < decodedText.length; i++) {
+                    const charCode = decodedText.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+                    result += String.fromCharCode(charCode);
+                }
+                return result;
+            } catch (e) {
+                return null;
+            }
         }
 
         function encryptMessage() {
-            const msg = document.getElementById("enc-message").value;
-            const a1 = document.getElementById("a1").value;
-            const a2 = document.getElementById("a2").value;
-            const a3 = document.getElementById("a3").value;
-            if(!msg || !a1 || !a2 || !a3) return showModal("Erro", "Preencha todos os campos.");
-            const key = `${a1.toLowerCase()}|${a2.toLowerCase()}|${a3.toLowerCase()}`;
-            const encrypted = btoa(unescape(encodeURIComponent(msg)));
-            document.getElementById("enc-output").value = encrypted + "\n\nQ1: " + document.getElementById("q1").value + "\nQ2: " + document.getElementById("q2").value + "\nQ3: " + document.getElementById("q3").value + "\nKey: " + key;
-            showModal("Sucesso", "Mensagem encriptada.");
+            const msg = document.getElementById("enc-message").value.trim();
+            const q1 = document.getElementById("q1").value.trim();
+            const a1 = document.getElementById("a1").value.trim();
+            const q2 = document.getElementById("q2").value.trim();
+            const a2 = document.getElementById("a2").value.trim();
+            const q3 = document.getElementById("q3").value.trim();
+            const a3 = document.getElementById("a3").value.trim();
+
+            if (!msg || !q1 || !a1 || !q2 || !a2 || !q3 || !a3) {
+                showModal("Campos Incompletos", "Por favor, preencha todos os campos da mensagem e das chaves.");
+                return;
+            }
+
+            const normA1 = normalizeKeyText(a1);
+            const normA2 = normalizeKeyText(a2);
+            const normA3 = normalizeKeyText(a3);
+            const combinedKey = normA1 + "|" + normA2 + "|" + normA3;
+            
+            const encryptedBody = xorCipher(msg, combinedKey);
+            const appLink = "https://excellington-jpg.github.io/encriptador-excellington/";
+
+            // Pacote completo incluindo o link do aplicativo
+            const payload = `${encryptedBody}
+
+Acesse o aplicativo para descriptografar:
+${appLink}
+
+Chave 1: ${q1}
+
+Chave 2: ${q2}
+
+Chave 3: ${q3}`;
+
+            document.getElementById("enc-output").value = payload;
+            showModal("Sucesso", "Mensagem encriptada com o link incluído!");
         }
 
         function decryptMessage() {
-            const raw = document.getElementById("dec-input").value;
-            const a1 = document.getElementById("dec-a1").value;
-            const a2 = document.getElementById("dec-a2").value;
-            const a3 = document.getElementById("dec-a3").value;
+            const rawPackage = document.getElementById("dec-input").value.trim();
+            const da1 = document.getElementById("dec-a1").value.trim();
+            const da2 = document.getElementById("dec-a2").value.trim();
+            const da3 = document.getElementById("dec-a3").value.trim();
+
+            if (!rawPackage || !da1 || !da2 || !da3) {
+                showModal("Atenção", "Preencha a mensagem codificada e todas as três respostas.");
+                return;
+            }
+
             try {
-                const parts = raw.split("\n\n");
-                const msg = decodeURIComponent(escape(atob(parts[0])));
-                document.getElementById("dec-output-text").value = msg;
-            } catch(e) { showModal("Erro", "Erro ao descriptografar."); }
+                const lines = rawPackage.split('\n');
+                let cipherBody = "";
+                for (let i = 0; i < lines.length; i++) {
+                    const trimmed = lines[i].trim();
+                    if (trimmed !== "") {
+                        cipherBody = trimmed;
+                        break;
+                    }
+                }
+
+                if (!cipherBody) throw new Error("Pacote inválido");
+
+                const normDa1 = normalizeKeyText(da1);
+                const normDa2 = normalizeKeyText(da2);
+                const normDa3 = normalizeKeyText(da3);
+                const userCombinedKey = normDa1 + "|" + normDa2 + "|" + normDa3;
+
+                const decryptedText = decryptXor(cipherBody, userCombinedKey);
+
+                if (!decryptedText || containsGarbage(decryptedText)) {
+                    throw new Error("Chave incorreta");
+                }
+
+                document.getElementById("dec-output-text").value = decryptedText;
+                showModal("Sucesso", "Mensagem desencriptada com sucesso!");
+            } catch(e) {
+                document.getElementById("dec-output-text").value = "";
+                showModal("Erro", "Chaves incorretas ou pacote corrompido.");
+            }
+        }
+
+        function containsGarbage(text) {
+            let nonPrintable = 0;
+            for (let i = 0; i < text.length; i++) {
+                const code = text.charCodeAt(i);
+                if (code < 32 && code !== 10 && code !== 13 && code !== 9) {
+                    nonPrintable++;
+                }
+            }
+            return (nonPrintable / text.length) > 0.1;
+        }
+
+        function copyResult() {
+            const outputText = document.getElementById("enc-output");
+            if (!outputText.value) {
+                showModal("Aviso", "Nenhum pacote gerado para copiar.");
+                return;
+            }
+            navigator.clipboard.writeText(outputText.value).then(() => {
+                showModal("Copiado!", "Pacote copiado para a área de transferência.");
+            }).catch(() => {
+                showModal("Erro", "Não foi possível copiar automaticamente.");
+            });
         }
 
         function showModal(title, msg) {
@@ -249,8 +370,9 @@
             document.getElementById("custom-modal").classList.remove("hidden");
         }
 
-        function closeModal() { document.getElementById("custom-modal").classList.add("hidden"); }
+        function closeModal() { 
+            document.getElementById("custom-modal").classList.add("hidden"); 
+        }
     </script>
 </body>
 </html>
-

@@ -85,26 +85,15 @@
                 <button onclick="toggleSettingsModal(true)" class="p-2 text-slate-400 hover:text-white" title="Configurações"><i data-lucide="settings" class="w-5 h-5"></i></button>
                 <button onclick="lockApp()" class="p-2 text-slate-400 hover:text-white" title="Bloquear"><i data-lucide="lock" class="w-5 h-5"></i></button>
             </div>
-        </header>
-
-        <div class="flex rounded-xl bg-slate-900 p-1.5 border border-slate-800/80 mb-6">
-            <button onclick="switchTab('encrypt')" id="tab-encrypt" class="flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition-all">ENCRIPTAR</button>
-            <button onclick="switchTab('decrypt')" id="tab-decrypt" class="flex-1 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all">DESENCRIPTAR</button>
-        </div>
 
 
 
+            
         <div class="flex items-center gap-2 mt-0.5">
                         <span id="user-display-tag" class="text-xs font-semibold text-indigo-300 hidden"></span>
       <button onclick="openUsernameModal()" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline hidden" id="edit-user-btn">Editar</button>
      
     </div>
-
-
-
-
-
-    
 
             <div class="flex items-center gap-2 flex-wrap justify-center">
  
@@ -121,6 +110,25 @@
                     <i class="fa-solid fa-right-from-bracket"></i> Sair
                 </button>
             </div>
+            
+
+
+
+            
+        </header>
+
+        <div class="flex rounded-xl bg-slate-900 p-1.5 border border-slate-800/80 mb-6">
+            <button onclick="switchTab('encrypt')" id="tab-encrypt" class="flex-1 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition-all">ENCRIPTAR</button>
+            <button onclick="switchTab('decrypt')" id="tab-decrypt" class="flex-1 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-all">DESENCRIPTAR</button>
+        </div>
+
+
+
+
+
+    
+
+
 
 
 
